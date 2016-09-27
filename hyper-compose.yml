@@ -1,0 +1,9 @@
+version: '2'
+services:
+  web:
+    image: kevinsimper/startupevents
+    ports:
+     - "80:9000"
+    environment:
+     - COOKIE_SECRET=secretme
+     - NODE_ENV=production
