@@ -1,0 +1,31 @@
+html, body {
+  margin: 0;
+}
+body {
+  background-color: #ececec;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: 300;
+}
+h1, h2 {
+  font-weight: 300;
+  line-height: 1.3em;
+}
+a {
+  color: color(#1e90ff shade(18%));
+  &:hover {
+    color: color(#1e90ff shade(50%))
+  }
+}
+.wrapper {
+  margin: 0 auto;
+}
+.Content {
+  margin: 0 auto;
+  max-width: 1000px;
+  &.Admin {
+    max-width: none;
+  }
+}
+* {
+  box-sizing: border-box;
+}

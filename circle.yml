@@ -1,0 +1,25 @@
+machine:
+  pre:
+    - curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.10.0
+    - sudo curl -L -o /usr/local/bin/docker-compose https://github.com/docker/compose/releases/download/1.6.0/docker-compose-`uname -s`-`uname -m`
+    - sudo chmod +x /usr/local/bin/docker-compose
+  services:
+    - docker
+dependencies:
+  cache_directories:
+    - "~/docker"
+    - "node_modules"
+  override:
+    - docker pull node:6.3
+    - mkdir -p ~/docker
+    - docker run -it --workdir /app -v $(pwd):/app node:6.3 npm install
+    - docker-compose build
+test:
+  override:
+    - echo "no test"
+deployment:
+  master:
+    branch: master
+    commands:
+      - docker login -u kevinsimper -p $DOCKER_PASSWORD -e kevin.simper@gmail.com
+      - npm run deploy
