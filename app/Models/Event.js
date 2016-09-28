@@ -7,8 +7,8 @@ export default {
     description: Sequelize.TEXT,
     type: Sequelize.STRING,
     externalId: Sequelize.STRING,
-    start: Sequelize.STRING,
-    end: Sequelize.STRING,
+    start: Sequelize.DATE,
+    end: Sequelize.DATE,
     location: Sequelize.STRING
   }
 }
