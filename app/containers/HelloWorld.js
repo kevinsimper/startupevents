@@ -1,16 +1,17 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import Event from '../components/Event'
 
 class HelloWorldContainer extends Component {
   render() {
     const { events } = this.props
     return (
       <div>
-        <h1>Hello World</h1>
+        <h1>Startup Events</h1>
         <div>
           {events.map((event) => {
             return (
-              <div>{event.title}</div>
+              <Event event={event}/>
             )
           })}
         </div>
