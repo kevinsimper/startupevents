@@ -6,6 +6,7 @@ export default class Event extends Component {
     return (
       <div>
         <h3>{event.title}</h3>
+        <div>{event.start.toString()} - {event.end.toString()}</div>
         <div>{event.description}</div>
       </div>
     )
