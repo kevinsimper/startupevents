@@ -6,5 +6,6 @@ import HelloWorld from './containers/HelloWorld'
 export default (
   <Route path='/' component={Main}>
     <IndexRoute component={HelloWorld}/>
+    <Route path='date/:year/:month/:day' component={HelloWorld}/>
   </Route>
 )

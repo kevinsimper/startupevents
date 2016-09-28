@@ -9,6 +9,7 @@ import cookieParser from 'cookie-parser'
 import Sequelize from 'sequelize'
 import { get } from 'axios'
 import EventModel from './Models/Event'
+import moment from 'moment'
 
 let connectionString = process.env.POSTGRES || 'postgres://postgres:password@db:5432/postgres'
 let database = new Sequelize(connectionString, {
@@ -65,10 +66,29 @@ router.get('/api/import', (req, res) => {
 })
 
 router.get('/', (req, res) => {
+  let today = moment()
   database.query(`SELECT * FROM EVENTS WHERE start BETWEEN '2016-09-01'::DATE AND '2016-10-01'::DATE ORDER BY start ASC`)
   .then((results) => {
     output(req, res, {
-      events: results[0]
+      events: results[0],
+      start: today
+    })
+  })
+  .catch((e) => {
+    console.log(e)
+    res.send('Something went wrong!')
+  })
+})
+
+router.get('/date/:year/:month/:day', (req, res) => {
+  const { year, month, day } = req.params
+  let start = moment(`${year}-${month}-${day}`)
+  let end = start.clone().add(1, 'month')
+  database.query(`SELECT * FROM EVENTS WHERE start BETWEEN '${start.format('YYYY-MM-DD')}'::DATE AND '${end.format('YYYY-MM-DD')}'::DATE ORDER BY start ASC`)
+  .then((results) => {
+    output(req, res, {
+      events: results[0],
+      start: start
     })
   })
   .catch((e) => {
