@@ -65,10 +65,10 @@ router.get('/api/import', (req, res) => {
 })
 
 router.get('/', (req, res) => {
-  Event.all()
-  .then((events) => {
+  database.query(`SELECT * FROM EVENTS WHERE start BETWEEN '2016-09-01'::DATE AND '2016-10-01'::DATE ORDER BY start ASC`)
+  .then((results) => {
     output(req, res, {
-      events: events
+      events: results[0]
     })
   })
   .catch((e) => {
