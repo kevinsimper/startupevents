@@ -8,9 +8,9 @@ class HelloWorldContainer extends Component {
       <div>
         <h1>Hello World</h1>
         <div>
-          {events.items.map((event) => {
+          {events.map((event) => {
             return (
-              <div>{event.summary}</div>
+              <div>{event.title}</div>
             )
           })}
         </div>

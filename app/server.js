@@ -8,14 +8,18 @@ import Helmet from 'react-helmet'
 import cookieParser from 'cookie-parser'
 import Sequelize from 'sequelize'
 import { get } from 'axios'
+import EventModel from './Models/Event'
 
 let connectionString = process.env.POSTGRES || 'postgres://postgres:password@db:5432/postgres'
 let database = new Sequelize(connectionString, {
   native: true
 })
+
+
 database.authenticate().catch(() => {
   console.log('Could not connect to database!')
 })
+let Event = database.define(EventModel.name, EventModel.props)
 let production = process.env.NODE_ENV === 'production'
 if(!production) {
   database.sync().then(() => {
@@ -27,11 +31,32 @@ let router = express.Router()
 router.use(bodyParser.json())
 router.use(cookieParser(process.env.COOKIE_SECRET))
 
-router.get('/api/events', (req, res) => {
+router.get('/api/import', (req, res) => {
   get('https://clients6.google.com/calendar/v3/calendars/startupdigest.com_p61vqdc6m1nvsaertntq2ehp5g@group.calendar.google.com/events?calendarId=startupdigest.com_p61vqdc6m1nvsaertntq2ehp5g%40group.calendar.google.com&singleEvents=true&timeZone=Europe%2FCopenhagen&maxAttendees=1&maxResults=250&sanitizeHtml=true&timeMin=2016-08-29T00%3A00%3A00%2B02%3A00&timeMax=2016-10-03T00%3A00%3A00%2B02%3A00&key=AIzaSyBNlYH01_9Hc5S1J9vuFmu2nUqBZJNAXxs')
   .then((_res) => {
-    console.log(_res.data)
-    res.send(_res.data)
+    let allEvents = _res.data.items.map((item) => {
+      return Event.findOne({
+        where: {
+          externalId: item.id
+        }
+      }).then((event) => {
+        if(!event) {
+          return Event.create({
+            title: item.summary,
+            description: item.description,
+            type: 'startupdigest',
+            externalId: item.id,
+            start: item.start.dateTime,
+            end: item.end.dateTime,
+            location: item.location
+          })
+        }
+      })
+    })
+
+    return Promise.all(allEvents).then(() => {
+      res.send('ok')
+    })
   })
   .catch((e) => {
     console.log(e)
@@ -40,10 +65,10 @@ router.get('/api/events', (req, res) => {
 })
 
 router.get('/', (req, res) => {
-  get('https://clients6.google.com/calendar/v3/calendars/startupdigest.com_p61vqdc6m1nvsaertntq2ehp5g@group.calendar.google.com/events?calendarId=startupdigest.com_p61vqdc6m1nvsaertntq2ehp5g%40group.calendar.google.com&singleEvents=true&timeZone=Europe%2FCopenhagen&maxAttendees=1&maxResults=250&sanitizeHtml=true&timeMin=2016-08-29T00%3A00%3A00%2B02%3A00&timeMax=2016-10-03T00%3A00%3A00%2B02%3A00&key=AIzaSyBNlYH01_9Hc5S1J9vuFmu2nUqBZJNAXxs')
-  .then((_res) => {
+  Event.all()
+  .then((events) => {
     output(req, res, {
-      events: _res.data
+      events: events
     })
   })
   .catch((e) => {
