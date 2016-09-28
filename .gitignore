@@ -36,3 +36,4 @@ dist
 public/build
 data
 docker-cloud.yml
+hyper-compose.yml

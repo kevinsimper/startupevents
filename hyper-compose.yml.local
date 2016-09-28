@@ -7,3 +7,4 @@ services:
     environment:
      - COOKIE_SECRET=secretme
      - NODE_ENV=production
+     - POSTGRES=###
