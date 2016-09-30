@@ -10,6 +10,7 @@ class HelloWorldContainer extends Component {
       <div>
         <DateNavigation start={start}/>
         <EventsList events={events}/>
+        <DateNavigation start={start}/>
       </div>
     )
   }
