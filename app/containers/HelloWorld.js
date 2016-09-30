@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import Event from '../components/Event'
 import moment from 'moment'
+import EventsList from '../components/EventsList'
 
 class HelloWorldContainer extends Component {
   render() {
@@ -15,13 +15,7 @@ class HelloWorldContainer extends Component {
         <div>Showing: {todayFormat}</div>
         <div><a href={`/date/${prev}`}>Prev</a></div>
         <div><a href={`/date/${next}`}>Next</a></div>
-        <div>
-          {events.map((event) => {
-            return (
-              <Event event={event}/>
-            )
-          })}
-        </div>
+        <EventsList events={events}/>
       </div>
     )
   }
