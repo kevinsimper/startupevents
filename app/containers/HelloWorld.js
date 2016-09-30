@@ -12,7 +12,6 @@ class HelloWorldContainer extends Component {
     let next = today.clone().add(7, 'days').format('YYYY/MM/DD')
     return (
       <div>
-        <h1>Startup Events</h1>
         <div>Showing: {todayFormat}</div>
         <div><a href={`/date/${prev}`}>Prev</a></div>
         <div><a href={`/date/${next}`}>Next</a></div>
