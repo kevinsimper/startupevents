@@ -6,12 +6,16 @@ import moment from 'moment'
 class HelloWorldContainer extends Component {
   render() {
     const { events, start } = this.props
+    let today = moment(start)
+    let todayFormat = today.format('DD MMM YYYY')
+    let prev = today.clone().subtract(7, 'days').format('YYYY/MM/DD')
+    let next = today.clone().add(7, 'days').format('YYYY/MM/DD')
     return (
       <div>
         <h1>Startup Events</h1>
-        <div>Showing: {moment(start).format('MMM YYYY')}</div>
-        <div><a href={`/date/2016/10/01`}>Prev</a></div>
-        <div><a href={`/date/2016/10/01`}>Next</a></div>
+        <div>Showing: {todayFormat}</div>
+        <div><a href={`/date/${prev}`}>Prev</a></div>
+        <div><a href={`/date/${next}`}>Next</a></div>
         <div>
           {events.map((event) => {
             return (

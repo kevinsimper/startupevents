@@ -66,8 +66,9 @@ router.get('/api/import', (req, res) => {
 })
 
 router.get('/', (req, res) => {
-  let today = moment()
-  database.query(`SELECT * FROM EVENTS WHERE start BETWEEN '2016-09-01'::DATE AND '2016-10-01'::DATE ORDER BY start ASC`)
+  let today = moment().add(2, 'hours')
+  let end = today.clone().add(7, 'days')
+  database.query(`SELECT * FROM EVENTS WHERE start BETWEEN '${today.format('YYYY-MM-DD')}'::DATE AND '${end.format('YYYY-MM-DD')}'::DATE ORDER BY start ASC`)
   .then((results) => {
     output(req, res, {
       events: results[0],
@@ -83,7 +84,7 @@ router.get('/', (req, res) => {
 router.get('/date/:year/:month/:day', (req, res) => {
   const { year, month, day } = req.params
   let start = moment(`${year}-${month}-${day}`)
-  let end = start.clone().add(1, 'month')
+  let end = start.clone().add(7, 'days')
   database.query(`SELECT * FROM EVENTS WHERE start BETWEEN '${start.format('YYYY-MM-DD')}'::DATE AND '${end.format('YYYY-MM-DD')}'::DATE ORDER BY start ASC`)
   .then((results) => {
     output(req, res, {
