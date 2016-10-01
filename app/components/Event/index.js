@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import styles from './style.scss'
 import moment from 'moment'
+import xss from 'xss'
+import autolinks from 'autolinks'
 
 export default class Event extends Component {
   render() {
@@ -13,7 +15,7 @@ export default class Event extends Component {
         <div>
           <strong>{start.format('DD/MM | HH:mm')} - {end.format('HH:mm')}</strong>
         </div>
-        <div>{event.description}</div>
+        <div dangerouslySetInnerHTML={{__html: autolinks(xss(event.description.trim().replace(/(?:\r\n|\r|\n)/g, '<br />')))}}></div>
       </div>
     )
   }
