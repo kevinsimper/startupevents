@@ -10,9 +10,13 @@ export default class DateNavigation extends Component {
     let next = today.clone().add(7, 'days').format('YYYY/MM/DD')
     return (
       <div className={styles.Navigation}>
-        <div><a href={`/date/${prev}`}>Prev</a></div>
+        <div>
+          <a className={styles.Buttons} href={`/date/${prev}`}>Prev</a>
+        </div>
         <div>{todayFormat}</div>
-        <div><a href={`/date/${next}`}>Next</a></div>
+        <div>
+          <a className={styles.Buttons} href={`/date/${next}`}>Next</a>
+        </div>
       </div>
     )
   }

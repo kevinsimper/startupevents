@@ -1,4 +1,16 @@
 .Navigation {
   display: flex;
   justify-content: space-around;
+  margin: 20px 0 0;
+  padding: 6px;
+  @media(min-width: 720px) {
+    margin: 40px 0 0;
+  }
+}
+.Buttons {
+  padding: 6px 10px;
+  background: #FF9800;
+  color: white;
+  text-decoration: none;
+  border-radius: 3px;
 }
