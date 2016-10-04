@@ -3,6 +3,7 @@ import styles from './style.scss'
 import Helmet from 'react-helmet'
 import cx from 'classnames'
 import Header from '../Header'
+import Footer from '../Footer'
 
 export default class Main extends Component {
   render() {
@@ -18,6 +19,7 @@ export default class Main extends Component {
         <div className={ContentClasses}>
           {this.props.children}
         </div>
+        <Footer/>
       </div>
     )
   }
