@@ -10,6 +10,7 @@ import Sequelize from 'sequelize'
 import { get } from 'axios'
 import EventModel from './Models/Event'
 import moment from 'moment'
+import axios from 'axios'
 
 let connectionString = process.env.POSTGRES || 'postgres://postgres:password@db:5432/postgres'
 let database = new Sequelize(connectionString, {
@@ -95,6 +96,33 @@ router.get('/date/:year/:month/:day', (req, res) => {
   .catch((e) => {
     console.log(e)
     res.send('Something went wrong!')
+  })
+})
+
+router.get('/login', (req, res) => {
+  output(req, res, {
+    appId: process.env.FACEBOOK_ACCESS.split('|')[0]
+  })
+})
+
+router.post('/checklogin', (req, res) => {
+  let { accessToken } = req.body
+
+  let checkToken = `https://graph.facebook.com/debug_token?input_token=${accessToken}&access_token=${process.env.FACEBOOK_ACCESS}`
+  axios.get(checkToken).then((response) => {
+    const { is_valid, user_id, app_id } = response.data.data
+    if(is_valid && app_id === process.env.FACEBOOK_ACCESS.split('|')[0]) {
+      res.cookie('user_id', user_id, { httpOnly: true, signed: true })
+      res.cookie('fb_token', accessToken, { httpOnly: true, signed: true })
+      res.send({
+        status: 'success'
+      })
+    } else {
+      res.sendStatus(500)
+    }
+  }).catch((err) => {
+    console.log(err)
+    res.send('Error')
   })
 })
 
