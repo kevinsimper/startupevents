@@ -34,7 +34,9 @@ class Login extends Component {
     post('/checklogin', {
       accessToken: res.authResponse.accessToken
     }).then((res) => {
-      console.log(res.data)
+      if(res.data.status === 'success') {
+        window.location = '/admin'
+      }
     })
   }
   onClickLogin() {
