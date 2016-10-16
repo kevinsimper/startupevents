@@ -8,6 +8,7 @@ services:
      - "9000:9000"
     environment:
      - COOKIE_SECRET=secretme
+     - FACEBOOK_ACCESS=1133199640100972|8a05711bf78e5d4af25a74ec56e8aed2
   db:
     image: postgres:9.5
     ports:

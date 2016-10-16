@@ -1,7 +1,11 @@
+.NavigationWrapper {
+  background-color: white;
+}
 .Navigation {
   display: flex;
-  background-color: white;
   justify-content: space-around;
+  max-width: 1000px;
+  margin: 0 auto;
   a {
     padding: 10px;
     flex: 1;
