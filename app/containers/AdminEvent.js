@@ -9,7 +9,9 @@ class AdminEvent extends Component {
         <h1>Edit Event</h1>
         <pre>
           <code>
-            { JSON.stringify(event, null, 2)}
+            <pre style={{whiteSpace: 'pre-wrap'}}>
+              {JSON.stringify(event, null, 2)}
+            </pre>
           </code>
         </pre>
       </div>
