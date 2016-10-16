@@ -150,6 +150,17 @@ router.post('/checklogin', (req, res) => {
   })
 })
 
+router.get('/admin', (req, res) => {
+  let today = moment().add(2, 'hours')
+  let end = today.clone().add(7, 'days')
+  database.query(`SELECT * FROM EVENTS WHERE start BETWEEN '${today.format('YYYY-MM-DD')}'::DATE AND '${end.format('YYYY-MM-DD')}'::DATE ORDER BY start ASC`).then((results) => {
+
+    output(req, res, {
+      events: results[0]
+    })
+  })
+})
+
 router.get('*', (req, res) => {
   output(req, res, {})
 })
