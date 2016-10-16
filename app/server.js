@@ -161,6 +161,16 @@ router.get('/admin', (req, res) => {
   })
 })
 
+router.get('/admin/events/:id', (req, res) => {
+  const { id } = req.params
+  Event.findById(id).then((event) => {
+    output(req, res, {
+      event
+    })
+  })
+})
+
+
 router.get('*', (req, res) => {
   output(req, res, {})
 })

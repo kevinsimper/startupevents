@@ -4,6 +4,7 @@ import Main from './components/Main'
 import HelloWorld from './containers/HelloWorld'
 import Login from './containers/Login'
 import Admin from './containers/Admin'
+import AdminEvent from './containers/AdminEvent'
 
 export default (
   <Route path='/' component={Main}>
@@ -11,5 +12,6 @@ export default (
     <Route path='date/:year/:month/:day' component={HelloWorld}/>
     <Route path='login' component={Login}/>
     <Route path='admin' component={Admin}/>
+    <Route path='admin/events/:id' component={AdminEvent}/>
   </Route>
 )

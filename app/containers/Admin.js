@@ -9,12 +9,20 @@ class Admin extends Component {
         <h1>Admin</h1>
         <p>This is the weeks showing:</p>
         <table>
+          <thead>
+            <tr>
+              <th>id</th>
+              <th>title</th>
+              <th>actions</th>
+            </tr>
+          </thead>
           <tbody>
             {events.map((event, i) => {
               return (
                 <tr key={i}>
                   <td>{event.id}</td>
                   <td>{event.title}</td>
+                  <td><a href={`/admin/events/${event.id}`}>Edit</a></td>
                 </tr>
               )
             })}
