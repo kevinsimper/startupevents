@@ -150,7 +150,23 @@ router.post('/checklogin', (req, res) => {
   })
 })
 
-router.get('/admin', (req, res) => {
+function checkAdmin(req, res, next) {
+  const { user_id } = req.signedCookies
+  User.findOne({
+    where: { facebookId: user_id }
+  }).then((user) => {
+    if(!user) {
+      return res.sendStatus(500)
+    }
+    if(user.admin) {
+      next()
+    } else {
+      res.sendStatus(401)
+    }
+  })
+}
+
+router.get('/admin', checkAdmin, (req, res) => {
   let today = moment().add(2, 'hours')
   let end = today.clone().add(7, 'days')
   database.query(`SELECT * FROM EVENTS WHERE start BETWEEN '${today.format('YYYY-MM-DD')}'::DATE AND '${end.format('YYYY-MM-DD')}'::DATE ORDER BY start ASC`).then((results) => {
@@ -161,7 +177,7 @@ router.get('/admin', (req, res) => {
   })
 })
 
-router.get('/admin/events/:id', (req, res) => {
+router.get('/admin/events/:id', checkAdmin, (req, res) => {
   const { id } = req.params
   Event.findById(id).then((event) => {
     output(req, res, {
